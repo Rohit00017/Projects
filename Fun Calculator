@@ -1,0 +1,96 @@
+package fun.fun.fun;
+
+import java.util.Scanner;
+
+public class LoCa {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+
+		System.out.print("Enter Name 1: ");
+		String name1 = sc.nextLine();
+		System.out.print("Enter Name 2: ");
+		String name2 = sc.nextLine();
+
+		String a = "LOVE";
+		String l = name1 + a + name2;
+
+		l = l.toUpperCase();
+
+		int[] letterCount = new int[26];
+
+		char[] order = new char[l.length()];
+		int orderIndex = 0;
+
+		for (char ch : l.toCharArray()) {
+			if (ch >= 'A' && ch <= 'Z') {
+				int index = ch - 'A';
+				if (letterCount[index] == 0) {
+					order[orderIndex++] = ch;
+				}
+				letterCount[index]++;
+			}
+		}
+
+		int[] countsArray = new int[orderIndex];
+
+		for (int i = 0; i < orderIndex; i++) {
+			char letter = order[i];
+			countsArray[i] = letterCount[letter - 'A'];
+		}
+
+		while (countsArray.length > 2) {
+			int[] newArray = new int[(countsArray.length + 1) / 2];
+			int start = 0;
+			int end = countsArray.length - 1;
+			int index = 0;
+
+			while (start <= end) {
+				if (start == end) {
+					newArray[index++] = countsArray[start];
+				} else {
+					newArray[index++] = countsArray[start] + countsArray[end];
+				}
+				start++;
+				end--;
+			}
+
+			countsArray = newArray;
+		}
+
+		int[] finalValues = new int[countsArray.length * 2];
+		int finalIndex = 0;
+
+		for (int value : countsArray) {
+			if (value >= 10) {
+
+				finalValues[finalIndex++] = value / 10;
+				finalValues[finalIndex++] = value % 10;
+			} else {
+				finalValues[finalIndex++] = value;
+			}
+		}
+
+		while (finalValues.length > 2) {
+			int[] newArray = new int[(finalValues.length + 1) / 2];
+			int start = 0;
+			int end = finalValues.length - 1;
+			int index = 0;
+
+			while (start <= end) {
+				if (start == end) {
+					newArray[index++] = finalValues[start];
+				} else {
+					newArray[index++] = finalValues[start] + finalValues[end];
+				}
+				start++;
+				end--;
+			}
+
+			finalValues = newArray;
+		}
+
+		System.out.print(name1 + " loves " + name2 + " " + finalValues[0] + finalValues[1] + "%");
+
+		sc.close();
+	}
+}
